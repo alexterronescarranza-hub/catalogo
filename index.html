@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo MeliModa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .modal-active { overflow: hidden; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div id="app">
+        <!-- Header -->
+        <header class="bg-white shadow-sm sticky top-0 z-40">
+            <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-8 h-8 text-amber-700"></i>
+                    <h1 class="text-2xl font-bold tracking-tight text-stone-900 uppercase">MeliModa</h1>
+                </div>
+                <div class="relative w-full sm:w-72">
+                    <input type="text" id="searchInput" placeholder="Buscar modelos..." 
+                        class="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
+                    <i data-lucide="search" class="w-5 h-5 text-stone-400 absolute left-3 top-2.5"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero -->
+        <div class="bg-amber-100/50 py-12 px-4 text-center border-b border-amber-200">
+            <h2 class="text-3xl md:text-5xl font-serif text-amber-900 mb-4">Nueva Colección MeliModa</h2>
+            <p class="text-stone-600 max-w-xl mx-auto">Encuentra tu par perfecto y pídelo directamente por WhatsApp.</p>
+        </div>
+
+        <!-- Main -->
+        <main class="max-w-6xl mx-auto px-4 py-8">
+            <div id="categories" class="flex flex-wrap gap-2 justify-center mb-10">
+                <!-- Categorías generadas por JS -->
+            </div>
+
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Productos generados por JS -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-stone-900 text-stone-400 py-12 mt-12">
+            <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-2">MeliModa</h2>
+                    <p class="text-sm">Calzado con estilo para tus mejores momentos.</p>
+                </div>
+                <div class="flex gap-6" id="socialLinks">
+                    <!-- Links generados por JS -->
+                </div>
+            </div>
+            <div class="text-center mt-8 pt-8 border-t border-stone-800 text-xs text-stone-600">
+                © <span id="year"></span> MeliModa. Todos los derechos reservados.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal Imagen -->
+    <div id="imageModal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4" onclick="closeModal()">
+        <button class="absolute top-4 right-4 text-white p-2"><i data-lucide="x" class="w-8 h-8"></i></button>
+        <img id="modalImg" src="" alt="Ampliación" class="max-w-full max-h-[90vh] object-contain rounded-lg">
+    </div>
+
+    <script>
+        const CONFIG = {
+            nombreMarca: "MeliModa",
+            whatsapp: "51902021729",
+            instagram: "melimoda2",
+            facebook: "61583742501433",
+            moneda: "S/ "
+        };
+
+        const PRODUCTOS = [
+            { id: 1, nombre: 'Luna Lunera', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/J7DKYnHQ/099ad266-7a47-4725-bbb0-02fb8863b9ff.jpg', cat: 'Luna' },
+            { id: 2, nombre: 'Karen Montañez', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/gcX4tJLv/1f906904-ab2b-498b-810d-678a7ff66825.jpg', cat: 'Karen' },
+            { id: 3, nombre: 'Luna Brillante', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/ZYBjsRvx/21d1e06c-327a-4262-ad22-a769473281fb.jpg', cat: 'Luna' },
+            { id: 4, nombre: 'Magaly Top', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/G3WKWCvT/99810942-bf61-421a-9bee-2d01015a6805.jpg', cat: 'Magaly' },
+            { id: 5, nombre: 'Valeria Black', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/MZMt3TfD/b52a5876-d5b4-4d72-99f8-a265808496f2.jpg', cat: 'Valeria' },
+            { id: 6, nombre: 'Luna Camel', precio: 32.00, desc: 'Hebilla inoxidable.', img: 'https://i.postimg.cc/bY7g7h1H/d0896a96-75e5-4c40-8c24-aea48e45347a.jpg', cat: 'Luna' },
+            { id: 7, nombre: 'Luna Lines', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/jqpcpbyH/d304ce97-e2e4-43c6-9104-77dfa8f77502.jpg', cat: 'Luna' },
+            { id: 8, nombre: 'Luna Andina', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/zDs7srTn/d9df4b00-be1f-456e-af35-a7bf838078fd.jpg', cat: 'Luna' },
+            { id: 9, nombre: 'Luna Trenzada', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/QN2m23cg/e8fc00f2-8827-4f00-bd91-95467f0c520d.jpg', cat: 'Luna' },
+            { id: 10, nombre: 'Roxy Red', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/zBCgR9PH/4c5d6c70-edbe-4d34-ac25-099a9eb92295.jpg', cat: 'Roxy' },
+            { id: 11, nombre: 'Roxy Blue', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/XJfCyTD9/610e1246-554a-44ab-b7dd-83c16a237c09.jpg', cat: 'Roxy' },
+            { id: 12, nombre: 'Lazo Blanco', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/RF7HnjbH/bcc2e4d0-024c-4530-a9d7-ab46c8944407.jpg', cat: 'Lazo' },
+            { id: 13, nombre: 'Roxy Natura', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/PxWw8BFD/c470a89d-2337-4f42-b6c8-772e316ecfb1.jpg', cat: 'Roxy' },
+            { id: 14, nombre: 'Roxy Power', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/Ss6MzwtW/d1541b68-a1d6-4e7c-bca3-4f9b509153fb.jpg', cat: 'Roxy' },
+            { id: 15, nombre: 'Roxy Prime', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/NM6HrWP7/dba3eacb-52c9-449a-bf52-ae1dcfad7432.jpg', cat: 'Roxy' },
+            { id: 16, nombre: 'Roxy Mar Rojo', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/rm1rtvYN/dd13f0f0-e2cb-4512-b955-de9b54fb8966.jpg', cat: 'Roxy' },
+            { id: 17, nombre: 'Valeria Lazo Negro', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/7632TpQt/e07fa8a0-2ab7-4834-b130-c492186efad1.jpg', cat: 'Valeria' }
+        ];
+
+        let catActiva = 'Todas';
+        let filtroTexto = '';
+
+        function render() {
+            // Render Social
+            document.getElementById('socialLinks').innerHTML = `
+                <a href="https://instagram.com/${CONFIG.instagram}" target="_blank" class="hover:text-pink-500 transition-colors flex items-center gap-2">
+                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                </a>
+                <a href="https://facebook.com/${CONFIG.facebook}" target="_blank" class="hover:text-blue-500 transition-colors flex items-center gap-2">
+                    <i data-lucide="facebook" class="w-6 h-6"></i>
+                </a>
+                <a href="https://wa.me/${CONFIG.whatsapp}" target="_blank" class="hover:text-green-400 transition-colors flex items-center gap-2">
+                    <i data-lucide="message-circle" class="w-6 h-6"></i>
+                </a>
+            `;
+
+            // Render Categorías
+            const cats = ['Todas', ...new Set(PRODUCTOS.map(p => p.cat))];
+            document.getElementById('categories').innerHTML = cats.map(c => `
+                <button onclick="setCat('${c}')" class="px-4 py-2 rounded-full text-sm font-medium transition-colors ${catActiva === c ? 'bg-amber-700 text-white shadow-md' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'}">
+                    ${c}
+                </button>
+            `).join('');
+
+            // Render Productos
+            const filtrados = PRODUCTOS.filter(p => {
+                return (catActiva === 'Todas' || p.cat === catActiva) && p.nombre.toLowerCase().includes(filtroTexto.toLowerCase());
+            });
+
+            document.getElementById('productGrid').innerHTML = filtrados.map(p => `
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-stone-100 group flex flex-col">
+                    <div class="relative h-72 overflow-hidden bg-stone-100">
+                        <img src="${p.img}" alt="${p.nombre}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <button onclick="openModal('${p.img}')" class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full text-stone-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="zoom-in" class="w-5 h-5"></i>
+                        </button>
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-stone-600">${p.cat}</div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-stone-800 mb-1">${p.nombre}</h3>
+                        <p class="text-sm text-stone-500 mb-4 flex-grow">${p.desc}</p>
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
+                            <span class="text-2xl font-bold text-amber-700">${CONFIG.moneda}${p.precio.toFixed(2)}</span>
+                            <button onclick="pedir('${p.nombre}', ${p.precio})" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-xl font-medium transition-colors shadow-sm">
+                                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                Pedir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function setCat(c) { catActiva = c; render(); }
+        
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            filtroTexto = e.target.value;
+            render();
+        });
+
+        function pedir(nombre, precio) {
+            const msg = `¡Hola! Me interesa el modelo *${nombre}* que cuesta ${CONFIG.moneda}${precio.toFixed(2)}. ¿Tienen disponibilidad?`;
+            window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function openModal(img) {
+            document.getElementById('modalImg').src = img;
+            document.getElementById('imageModal').classList.remove('hidden');
+            document.getElementById('imageModal').classList.add('flex');
+            document.body.classList.add('modal-active');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+            document.getElementById('imageModal').classList.remove('flex');
+            document.body.classList.remove('modal-active');
+        }
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+        render();
+    </script>
+</body>
+</html>
