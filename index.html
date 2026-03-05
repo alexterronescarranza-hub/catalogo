@@ -3,156 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo MeliModa</title>
+    <title>MeliModa | Tendencia y Confort</title>
+    <!-- Tailwind CSS para el diseño -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-serif { font-family: 'Playfair Display', serif; }
-        .modal-active { overflow: hidden; }
+        .bg-crema { background-color: #F3E9E0; }
+        .text-dorado { color: #C5A059; }
+        .bg-dorado { background-color: #C5A059; }
+        .border-dorado { border-color: #C5A059; }
+        
+        /* Animación suave para las imágenes */
+        .img-zoom { transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .group:hover .img-zoom { transform: scale(1.05); }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800">
+<body class="bg-[#FDFBF9] text-stone-900 leading-relaxed">
 
-    <div id="app">
-        <!-- Header -->
-        <header class="bg-white shadow-sm sticky top-0 z-40">
-            <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="shopping-bag" class="w-8 h-8 text-amber-700"></i>
-                    <h1 class="text-2xl font-bold tracking-tight text-stone-900 uppercase">MeliModa</h1>
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-stone-100">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <!-- Logo -->
+            <div class="flex items-center gap-3 group cursor-pointer" onclick="window.location.reload()">
+                <div class="bg-[#1A1A1A] text-white p-2 rounded-xl transition-transform duration-500 group-hover:rotate-12 shadow-md">
+                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
                 </div>
-                <div class="relative w-full sm:w-72">
-                    <input type="text" id="searchInput" placeholder="Buscar modelos..." 
-                        class="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
-                    <i data-lucide="search" class="w-5 h-5 text-stone-400 absolute left-3 top-2.5"></i>
+                <div class="flex flex-col leading-none">
+                    <span class="text-2xl font-extrabold tracking-tighter uppercase text-[#1A1A1A]">
+                        Meli<span class="text-dorado">Moda</span>
+                    </span>
+                    <span class="text-[9px] font-bold tracking-[0.3em] uppercase text-stone-400">
+                        Tendencia y Confort
+                    </span>
                 </div>
             </div>
-        </header>
-
-        <!-- Hero -->
-        <div class="bg-amber-100/50 py-12 px-4 text-center border-b border-amber-200">
-            <h2 class="text-3xl md:text-5xl font-serif text-amber-900 mb-4">Nueva Colección MeliModa</h2>
-            <p class="text-stone-600 max-w-xl mx-auto">Encuentra tu par perfecto y pídelo directamente por WhatsApp.</p>
+            
+            <!-- Buscador -->
+            <div class="relative w-full sm:w-80 group">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Buscar en la colección..." 
+                    class="w-full pl-10 pr-4 py-2.5 bg-stone-100 border-none rounded-full focus:bg-white focus:ring-2 focus:ring-[#C5A059] transition-all outline-none text-sm"
+                >
+                <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5 group-focus-within:text-[#C5A059] transition-colors"></i>
+            </div>
         </div>
+    </header>
 
-        <!-- Main -->
-        <main class="max-w-6xl mx-auto px-4 py-8">
-            <div id="categories" class="flex flex-wrap gap-2 justify-center mb-10">
-                <!-- Categorías generadas por JS -->
-            </div>
+    <!-- Hero Section -->
+    <section class="relative py-20 px-4 text-center overflow-hidden bg-crema">
+        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#C5A059 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <span class="inline-block text-dorado text-xs font-bold tracking-[0.4em] uppercase mb-4">
+                Colección 2024
+            </span>
+            <h2 class="text-5xl md:text-7xl font-serif text-[#1A1A1A] mb-6 font-bold tracking-tight uppercase">
+                NUEVA COLECCIÓN
+            </h2>
+            <div class="w-16 h-1 bg-dorado mx-auto mb-8"></div>
+            <p class="text-stone-600 text-lg md:text-xl font-light italic max-w-xl mx-auto">
+                "Pisa fuerte, pisa con estilo"
+            </p>
+        </div>
+    </section>
 
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Productos generados por JS -->
-            </div>
-        </main>
+    <!-- Filtros -->
+    <nav class="max-w-6xl mx-auto px-4 py-12">
+        <div id="filterContainer" class="flex flex-wrap gap-2 justify-center">
+            <!-- Los filtros se cargan con JS -->
+        </div>
+    </nav>
 
-        <!-- Footer -->
-        <footer class="bg-stone-900 text-stone-400 py-12 mt-12">
-            <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-                <div>
-                    <h2 class="text-2xl font-bold text-white mb-2">MeliModa</h2>
-                    <p class="text-sm">Calzado con estilo para tus mejores momentos.</p>
+    <!-- Galería de Productos -->
+    <main class="max-w-6xl mx-auto px-4 pb-24">
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            <!-- Los productos se cargan con JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1A1A1A] text-white py-20">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col items-center text-center">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="bg-white text-[#1A1A1A] p-2 rounded-xl shadow-md">
+                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
                 </div>
-                <div class="flex gap-6" id="socialLinks">
-                    <!-- Links generados por JS -->
+                <div class="flex flex-col leading-none text-left">
+                    <span class="text-2xl font-extrabold tracking-tighter uppercase text-white">
+                        Meli<span class="text-dorado">Moda</span>
+                    </span>
+                    <span class="text-[9px] font-bold tracking-[0.3em] uppercase text-stone-500">
+                        Tendencia y Confort
+                    </span>
                 </div>
             </div>
-            <div class="text-center mt-8 pt-8 border-t border-stone-800 text-xs text-stone-600">
-                © <span id="year"></span> MeliModa. Todos los derechos reservados.
-            </div>
-        </footer>
-    </div>
+            
+            <p class="text-stone-400 max-w-md mb-10 font-light leading-relaxed">
+                Elegancia en cada paso. Colecciones exclusivas diseñadas para la mujer que busca destacar con estilo y comodidad.
+            </p>
 
-    <!-- Modal Imagen -->
-    <div id="imageModal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4" onclick="closeModal()">
-        <button class="absolute top-4 right-4 text-white p-2"><i data-lucide="x" class="w-8 h-8"></i></button>
-        <img id="modalImg" src="" alt="Ampliación" class="max-w-full max-h-[90vh] object-contain rounded-lg">
+            <div class="flex gap-8 mb-16">
+                <a href="https://instagram.com/melimodastore" target="_blank" class="text-stone-400 hover:text-dorado transition-colors"><i data-lucide="instagram"></i></a>
+                <a href="https://facebook.com/61583742501433" target="_blank" class="text-stone-400 hover:text-dorado transition-colors"><i data-lucide="facebook"></i></a>
+                <a href="https://wa.me/51902021729" target="_blank" class="text-stone-400 hover:text-dorado transition-colors"><i data-lucide="message-circle"></i></a>
+            </div>
+            
+            <div class="w-full pt-8 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-bold tracking-[0.3em] uppercase text-stone-500">
+                <p>© <span id="year"></span> MeliModa. Boutique de Calzado.</p>
+                <p>Hecho en Perú</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Lightbox -->
+    <div id="modal" class="fixed inset-0 z-50 bg-[#1A1A1A]/95 backdrop-blur-sm hidden items-center justify-center p-4 cursor-pointer" onclick="closeModal()">
+        <button class="absolute top-6 right-6 text-white border border-white/20 p-2 rounded-full">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <img id="modalImg" src="" alt="Zoom" class="max-w-full max-h-[85vh] object-contain shadow-2xl rounded-sm">
     </div>
 
     <script>
         const CONFIG = {
-            nombreMarca: "MeliModa",
             whatsapp: "51902021729",
-            instagram: "melimoda2",
-            facebook: "61583742501433",
             moneda: "S/ "
         };
 
         const PRODUCTOS = [
-            { id: 1, nombre: 'Luna Lunera', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/J7DKYnHQ/099ad266-7a47-4725-bbb0-02fb8863b9ff.jpg', cat: 'Luna' },
+            { id: 1, nombre: 'Luna Lunera', precio: 32.00, desc: 'Diseño exclusivo con acabados premium.', img: 'https://i.postimg.cc/J7DKYnHQ/099ad266-7a47-4725-bbb0-02fb8863b9ff.jpg', cat: 'Luna' },
             { id: 2, nombre: 'Karen Montañez', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/gcX4tJLv/1f906904-ab2b-498b-810d-678a7ff66825.jpg', cat: 'Karen' },
             { id: 3, nombre: 'Luna Brillante', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/ZYBjsRvx/21d1e06c-327a-4262-ad22-a769473281fb.jpg', cat: 'Luna' },
             { id: 4, nombre: 'Magaly Top', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/G3WKWCvT/99810942-bf61-421a-9bee-2d01015a6805.jpg', cat: 'Magaly' },
             { id: 5, nombre: 'Valeria Black', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/MZMt3TfD/b52a5876-d5b4-4d72-99f8-a265808496f2.jpg', cat: 'Valeria' },
-            { id: 6, nombre: 'Luna Camel', precio: 32.00, desc: 'Hebilla inoxidable.', img: 'https://i.postimg.cc/bY7g7h1H/d0896a96-75e5-4c40-8c24-aea48e45347a.jpg', cat: 'Luna' },
+            { id: 6, nombre: 'Luna Camel', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/bY7g7h1H/d0896a96-75e5-4c40-8c24-aea48e45347a.jpg', cat: 'Luna' },
             { id: 7, nombre: 'Luna Lines', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/jqpcpbyH/d304ce97-e2e4-43c6-9104-77dfa8f77502.jpg', cat: 'Luna' },
             { id: 8, nombre: 'Luna Andina', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/zDs7srTn/d9df4b00-be1f-456e-af35-a7bf838078fd.jpg', cat: 'Luna' },
             { id: 9, nombre: 'Luna Trenzada', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/QN2m23cg/e8fc00f2-8827-4f00-bd91-95467f0c520d.jpg', cat: 'Luna' },
-            { id: 10, nombre: 'Roxy Red', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/zBCgR9PH/4c5d6c70-edbe-4d34-ac25-099a9eb92295.jpg', cat: 'Roxy' },
-            { id: 11, nombre: 'Roxy Blue', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/XJfCyTD9/610e1246-554a-44ab-b7dd-83c16a237c09.jpg', cat: 'Roxy' },
-            { id: 12, nombre: 'Lazo Blanco', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/RF7HnjbH/bcc2e4d0-024c-4530-a9d7-ab46c8944407.jpg', cat: 'Lazo' },
-            { id: 13, nombre: 'Roxy Natura', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/PxWw8BFD/c470a89d-2337-4f42-b6c8-772e316ecfb1.jpg', cat: 'Roxy' },
-            { id: 14, nombre: 'Roxy Power', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/Ss6MzwtW/d1541b68-a1d6-4e7c-bca3-4f9b509153fb.jpg', cat: 'Roxy' },
-            { id: 15, nombre: 'Roxy Prime', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/NM6HrWP7/dba3eacb-52c9-449a-bf52-ae1dcfad7432.jpg', cat: 'Roxy' },
-            { id: 16, nombre: 'Roxy Mar Rojo', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/rm1rtvYN/dd13f0f0-e2cb-4512-b955-de9b54fb8966.jpg', cat: 'Roxy' },
-            { id: 17, nombre: 'Valeria Lazo Negro', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/7632TpQt/e07fa8a0-2ab7-4834-b130-c492186efad1.jpg', cat: 'Valeria' }
+            { id: 10, nombre: 'Luna Elegante', precio: 32.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/K8K243Z5/6a87cf7b-71c1-4d8b-b1b0-b33038d6852d.jpg', cat: 'Luna' },
+            { id: 11, nombre: 'Roxy Red', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/zBCgR9PH/4c5d6c70-edbe-4d34-ac25-099a9eb92295.jpg', cat: 'Roxy' },
+            { id: 12, nombre: 'Roxy Blue', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/XJfCyTD9/610e1246-554a-44ab-b7dd-83c16a237c09.jpg', cat: 'Roxy' },
+            { id: 13, nombre: 'Lazo Blanco', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/RF7HnjbH/bcc2e4d0-024c-4530-a9d7-ab46c8944407.jpg', cat: 'Lazo' },
+            { id: 14, nombre: 'Roxy Natura', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/PxWw8BFD/c470a89d-2337-4f42-b6c8-772e316ecfb1.jpg', cat: 'Roxy' },
+            { id: 15, nombre: 'Roxy Power', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/Ss6MzwtW/d1541b68-a1d6-4e7c-bca3-4f9b509153fb.jpg', cat: 'Roxy' },
+            { id: 16, nombre: 'Roxy Prime', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/NM6HrWP7/dba3eacb-52c9-449a-bf52-ae1dcfad7432.jpg', cat: 'Roxy' },
+            { id: 17, nombre: 'Roxy Mar Rojo', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/rm1rtvYN/dd13f0f0-e2cb-4512-b955-de9b54fb8966.jpg', cat: 'Roxy' },
+            { id: 18, nombre: 'Valeria Lazo Negro', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/7632TpQt/e07fa8a0-2ab7-4834-b130-c492186efad1.jpg', cat: 'Valeria' },
+            { id: 19, nombre: 'Roxy Circular', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/T1Pjf6rr/1b73c3af-a65a-41fe-ada5-e7db5ced5016.jpg', cat: 'Roxy' },
+            { id: 20, nombre: 'Roxy Black', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/d3S20xB7/26f5d1ab-5818-4c37-9de6-b2b70607c4fc.jpg', cat: 'Roxy' },
+            { id: 21, nombre: 'Valeria Mariposa', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/BbwTvVgP/60fa66b5-644c-4152-819a-fec9dc5c5559.jpg', cat: 'Valeria' },
+            { id: 22, nombre: 'Roxy Perla Marina', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/QCMgh3pk/8c61c2d0-a6a6-4c3a-a373-6693aebc7b47.jpg', cat: 'Roxy' },
+            { id: 23, nombre: 'Roxy Power Black', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/XqDfvz8C/9688853b-a50d-4059-b357-8fd4159ccc82.jpg', cat: 'Roxy' },
+            { id: 24, nombre: 'Roxy Golden', precio: 42.00, desc: 'Diseño exclusivo.', img: 'https://i.postimg.cc/Rhb70DRf/f905ea68-c081-4704-9f05-e981e881b893.jpg', cat: 'Roxy' }
         ];
 
         let catActiva = 'Todas';
         let filtroTexto = '';
 
         function render() {
-            // Render Social
-            document.getElementById('socialLinks').innerHTML = `
-                <a href="https://instagram.com/${CONFIG.instagram}" target="_blank" class="hover:text-pink-500 transition-colors flex items-center gap-2">
-                    <i data-lucide="instagram" class="w-6 h-6"></i>
-                </a>
-                <a href="https://facebook.com/${CONFIG.facebook}" target="_blank" class="hover:text-blue-500 transition-colors flex items-center gap-2">
-                    <i data-lucide="facebook" class="w-6 h-6"></i>
-                </a>
-                <a href="https://wa.me/${CONFIG.whatsapp}" target="_blank" class="hover:text-green-400 transition-colors flex items-center gap-2">
-                    <i data-lucide="message-circle" class="w-6 h-6"></i>
-                </a>
-            `;
-
-            // Render Categorías
-            const cats = ['Todas', ...new Set(PRODUCTOS.map(p => p.cat))];
-            document.getElementById('categories').innerHTML = cats.map(c => `
-                <button onclick="setCat('${c}')" class="px-4 py-2 rounded-full text-sm font-medium transition-colors ${catActiva === c ? 'bg-amber-700 text-white shadow-md' : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'}">
-                    ${c}
+            const grid = document.getElementById('productGrid');
+            const filters = document.getElementById('filterContainer');
+            
+            // Renderizar Filtros
+            const categorias = ['Todas', ...new Set(PRODUCTOS.map(p => p.cat))];
+            filters.innerHTML = categorias.map(cat => `
+                <button onclick="setCat('${cat}')" class="px-8 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-300 border ${
+                    catActiva === cat 
+                    ? 'bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-xl' 
+                    : 'bg-transparent text-stone-400 border-stone-200 hover:border-dorado hover:text-dorado'
+                }">
+                    ${cat}
                 </button>
             `).join('');
 
-            // Render Productos
-            const filtrados = PRODUCTOS.filter(p => {
-                return (catActiva === 'Todas' || p.cat === catActiva) && p.nombre.toLowerCase().includes(filtroTexto.toLowerCase());
+            // Filtrar y Renderizar Productos
+            const filtered = PRODUCTOS.filter(p => {
+                const cCat = catActiva === 'Todas' || p.cat === catActiva;
+                const cText = p.nombre.toLowerCase().includes(filtroTexto.toLowerCase());
+                return cCat && cText;
             });
 
-            document.getElementById('productGrid').innerHTML = filtrados.map(p => `
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-stone-100 group flex flex-col">
-                    <div class="relative h-72 overflow-hidden bg-stone-100">
-                        <img src="${p.img}" alt="${p.nombre}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                        <button onclick="openModal('${p.img}')" class="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full text-stone-700 opacity-0 group-hover:opacity-100 transition-opacity">
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-20 text-center border-2 border-dashed border-stone-200 rounded-3xl text-stone-400 uppercase tracking-widest text-sm font-bold">Sin resultados</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => `
+                <div class="group flex flex-col animate-in fade-in duration-700">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-stone-100 rounded-sm mb-6">
+                        <img src="${p.img}" alt="${p.nombre}" class="img-zoom w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0">
+                        <button onclick="openModal('${p.img}')" class="absolute bottom-4 right-4 p-3 bg-white/90 backdrop-blur-sm rounded-full text-stone-800 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:bg-[#1A1A1A] hover:text-white">
                             <i data-lucide="zoom-in" class="w-5 h-5"></i>
                         </button>
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-stone-600">${p.cat}</div>
+                        <div class="absolute top-4 left-4 bg-[#1A1A1A]/90 backdrop-blur-sm px-3 py-1 text-[10px] font-bold text-white uppercase tracking-[0.2em]">
+                            ${p.cat}
+                        </div>
                     </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold text-stone-800 mb-1">${p.nombre}</h3>
-                        <p class="text-sm text-stone-500 mb-4 flex-grow">${p.desc}</p>
-                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
-                            <span class="text-2xl font-bold text-amber-700">${CONFIG.moneda}${p.precio.toFixed(2)}</span>
-                            <button onclick="pedir('${p.nombre}', ${p.precio})" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-xl font-medium transition-colors shadow-sm">
-                                <i data-lucide="message-circle" class="w-5 h-5"></i>
-                                Pedir
+                    <div class="text-center">
+                        <h3 class="text-lg font-bold text-[#1A1A1A] mb-1 uppercase tracking-tight">${p.nombre}</h3>
+                        <p class="text-stone-400 text-sm mb-4 font-light">${p.desc}</p>
+                        <div class="flex flex-col items-center gap-4">
+                            <span class="text-xl font-medium text-dorado">${CONFIG.moneda}${p.precio.toFixed(2)}</span>
+                            <button onclick="pedir('${p.nombre}', ${p.precio})" class="w-full max-w-[200px] border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                Consultar WhatsApp
                             </button>
                         </div>
                     </div>
                 </div>
             `).join('');
-
+            
             lucide.createIcons();
         }
 
@@ -170,15 +235,13 @@
 
         function openModal(img) {
             document.getElementById('modalImg').src = img;
-            document.getElementById('imageModal').classList.remove('hidden');
-            document.getElementById('imageModal').classList.add('flex');
-            document.body.classList.add('modal-active');
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
         }
 
         function closeModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-            document.getElementById('imageModal').classList.remove('flex');
-            document.body.classList.remove('modal-active');
+            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('modal').classList.remove('flex');
         }
 
         document.getElementById('year').textContent = new Date().getFullYear();
